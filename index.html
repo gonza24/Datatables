@@ -32,6 +32,10 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			$('#user-table').DataTable({
+				info: false,
+				paging : false,
+				ordering : false,
+				searching : false,
 				columns: [
 					{name : "id", data : "id"},
 					{name : "name", data : "name"},
