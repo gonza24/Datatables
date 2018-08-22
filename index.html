@@ -46,7 +46,7 @@
 
 			$.extend(true, $.fn.dataTable.defaults, {
 				info: false,
-				paging : false,
+				paging : true,
 				ordering : true,
 				searching : false
 			});
@@ -65,6 +65,22 @@
 				],
 				ajax: {
 					url: "http://datatables.test/users.json"
+				}
+			});
+
+			$('#products-table').DataTable({
+				columns: [
+					{name : "id", data : "id"},
+					{name : "name", data : "name"},
+					{name : "price", data : "price"}
+				],
+				culumnDefs: [
+					{ targets: [0], orderData: [0,1]},
+					{ targets: [1], orderData: [1,2]},
+					{ targets: [2], orderData: [2,1]}
+				],
+				ajax: {
+					url: "http://datatables.test/products.json"
 				}
 			});
 		})
