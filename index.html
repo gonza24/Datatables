@@ -45,12 +45,17 @@
 		jQuery(document).ready(function($){
 
 			$.extend(true, $.fn.dataTable.defaults, {
-				info: false,
+				info: true,
 				paging : true,
 				ordering : true,
-				searching : true
+				searching : true,
+				language : {
+					url : "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+				}
 			});
 			
+			/* http://cdn.datatables.net/plug-ins/1.10.19/i18n/ 
+				Tambien puedo descargarlo y llamarlo*/
 
 			$('#user-table').DataTable({
 				stateSave : true,
@@ -71,6 +76,9 @@
 			});
 
 			$('#products-table').DataTable({
+				language : {
+					url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Persian.json"
+				},
 				columns: [
 					{name : "id", data : "id"},
 					{name : "name", data : "name"},
