@@ -25,8 +25,18 @@
 							<th>Nombre</th>
 							<th>País</th>
 							<th>Edad</th>
+							<th>Fecha inicio</th>
 						</tr>
 					</thead>
+					<tfoot>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>País</th>
+							<th>Edad</th>
+							<th>Fecha inicio</th>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 			<div class="well">
@@ -76,23 +86,32 @@
 					url : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
 				}
 			});
+
+			$('#employees-table tfoot th').each(function(){
+				var title = $(this).text();
+				$(this).html('<input type="text" placeholder="Buscar por ' + title + '" />');	
+			});
+
+
 			
 			/* http://cdn.datatables.net/plug-ins/1.10.19/i18n/ 
 				Tambien puedo descargarlo y llamarlo*/
-			$('#employees-table').DataTable( {
+			var employeesTable = $('#employees-table').DataTable( {
 				"paging": true,
 	            "order": [[ 2, 'asc' ]],
 	            "columns": [
 	                {name: "id", data: "id"},
 	                {name: "name", data: "name"},
 	                {name: "country", data: "country", visible: false},
-	                {name: "age", data: "age"}
+	                {name: "age", data: "age"},
+	                {name: "starts", data: "starts"}
 	            ],
 	            "columnDefs": [
 	                {targets: 0},
 	                {targets: 1},
 	                {targets: 2},
-	                {targets: 3}
+	                {targets: 3},
+	                {targets: 4}
 	            ],
 	            "ajax": {
 	                "url": "http://datatables.test/employees.json"
@@ -119,6 +138,18 @@
 	            }
 			});
 
+			employeesTable.columns().every(function(){
+				var that = this;
+
+				$('input', this.footer() ).on('keyup change', function(){
+					if( that.search() !== this.value){
+						that
+							.column($(this).parent().index() + ':visible')
+							.search(this.value)
+							.draw();
+					}
+				});
+			});
 
 			$('#user-table').DataTable( {
 				stateSave : false,
