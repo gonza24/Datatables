@@ -17,7 +17,14 @@
 	<div class="container">
 		<div class="col-md-12">
 			<h1>Ejemplos Datatables</h1>
+
 			<div class="well">
+				<div class="text-center">
+					<a class="toggle-vis btn btn-sm btn-info" data-column="0">ID</a>
+					<a class="toggle-vis btn btn-sm btn-info" data-column="1">Nombre</a>
+					<a class="toggle-vis btn btn-sm btn-info" data-column="3">Edad</a>
+					<a class="toggle-vis btn btn-sm btn-info" data-column="4">Fecha inicio</a>
+				</div>
 				<table class="table" id="employees-table">
 					<thead>
 						<tr>
@@ -168,6 +175,12 @@
 							.draw();
 					}
 				});
+			});
+
+			$("a.toggle-vis").on('click', function(e){
+				e.preventDefault();
+				var column = employeesTable.column($(this).data("column"));
+				column.visible( !column.visible() );
 			});
 
 			$('#user-table').DataTable( {
