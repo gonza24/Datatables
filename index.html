@@ -57,27 +57,31 @@
 			/* http://cdn.datatables.net/plug-ins/1.10.19/i18n/ 
 				Tambien puedo descargarlo y llamarlo*/
 
-			$('#user-table').DataTable({
-				stateSave : true,
-				scrollY : "40vh",
-				paging : false,
-				columns: [
+			$('#user-table').dataTable( {
+				stateSave : false,
+				scrollY : "30vh",
+				paging : true,
+				"columns": [
 					{name : "id", data : "id"},
 					{name : "name", data : "name"},
-					{name : "email", data : "email", visible: false, searchable: false}
+					{name : "email", data : "email"}
 				],
-				culumnDefs: [
-					{ targets: [0], orderData: [0,1]},
-					{ targets: [1], orderData: [1,2]}
-				],
-				ajax: {
-					url: "http://datatables.test/users.json"
+			  	"columnDefs": [
+			  		{ targets: [0], orderData: [0,1]},
+					{ targets: [1], orderData: [1,2]},
+					/*data contiene el valor de la columna en la que estamos trabajando*/
+			    	{ "targets": 2, render: function(data, type,row){
+			    		return `(${row.id}) ${data}`;
+			    	}}
+			  	],
+			  	"ajax": {
+					"url": "http://datatables.test/users.json"
 				}
 			});
 
-			$('#products-table').DataTable({
+			/*$('#products-table').DataTable({
 				language : {
-					url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Persian.json"
+					url: "http://cdn.datatables.net/plug-ins/1.10.19/i18n/Persian.json"
 				},
 				columns: [
 					{name : "id", data : "id"},
@@ -92,7 +96,7 @@
 				ajax: {
 					url: "http://datatables.test/products.json"
 				}
-			});
+			});*/
 		})
 	</script>
 </body>
