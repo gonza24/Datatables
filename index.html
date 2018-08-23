@@ -33,6 +33,11 @@
 							<th>Precio</th>
 						</tr>
 					</thead>
+					<tfoot>
+						<tr>
+							<th colspan="3" style="text-align: right;">Total:</th>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>
@@ -42,6 +47,7 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 	<script type="text/javascript">
+		console.log("Hola");
 		jQuery(document).ready(function($){
 
 			$.extend(true, $.fn.dataTable.defaults, {
@@ -50,14 +56,14 @@
 				ordering : true,
 				searching : true,
 				language : {
-					url : "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+					url : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
 				}
 			});
 			
 			/* http://cdn.datatables.net/plug-ins/1.10.19/i18n/ 
 				Tambien puedo descargarlo y llamarlo*/
 
-			$('#user-table').dataTable( {
+			$('#user-table').DataTable( {
 				stateSave : false,
 				scrollY : "30vh",
 				paging : true,
@@ -79,9 +85,9 @@
 				}
 			});
 
-			/*$('#products-table').DataTable({
+			$('#products-table').DataTable({
 				language : {
-					url: "http://cdn.datatables.net/plug-ins/1.10.19/i18n/Persian.json"
+					url: "http://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
 				},
 				columns: [
 					{name : "id", data : "id"},
@@ -95,8 +101,37 @@
 				],
 				ajax: {
 					url: "http://datatables.test/products.json"
+				},
+				footerCallback: function(row, data, start, end, display){
+					//accedemos a toda la tabla de productos(información)
+					var api = this.api();
+					
+					var intVal = function( i ) {
+						
+						return typeof i === 'string' ?
+                        	i.replace(/[\$]/g, '').replace(/,/g, '.') * 1 :
+                        	typeof i === 'number' ? i : 0;
+					};
+
+					var total = api
+						.column(2)
+						.data()
+						.reduce(function(a,b){
+							return intVal(a) + intVal(b);
+						}, 0);
+
+					var totalPage = api
+						.column(2, {page : 'current'})
+						.data()
+						.reduce(function(a,b){
+							return intVal(a) + intVal(b);
+						}, 0);
+
+					$(api.column(2).footer()).html(
+						`$ ${totalPage.toFixed(2)} ($ ${total.toFixed(2)})`
+					)
 				}
-			});*/
+			});
 		})
 	</script>
 </body>
