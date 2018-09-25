@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.3/css/select.dataTables.min.css">
 
 	<style>
 		.highlight{
@@ -90,6 +91,8 @@
 	<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
 
+	<script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
+
 	<script type="text/javascript">
 	
 		jQuery(document).ready(function($){
@@ -102,10 +105,13 @@
 				language : {
 					url : "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json"
 				},
-				dom: "B",
+				dom: "Bfrtip",
 				buttons: [
-        			'copy', 'csv', 'excel', 'pdf', 'print'
-    			]
+        			'copy', 'csv', 'excel', 'pdf', 'print',
+        			'selected','selectedSingle','selectAll',
+        			'selectNone','selectRows','selectColumns','selectCells'
+    			],
+    			select: true
 			});
 
 			$('#employees-table tfoot th').each(function(){
