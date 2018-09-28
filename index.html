@@ -13,6 +13,17 @@
 			color: lightgreen;
 			background-color: black !important;
 		}
+
+		td.details-control {
+            background: url('imgs/details_open.png') no-repeat center center;
+            background-size: 24px;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('imgs/details_close.png') no-repeat center center;
+        }
+        
 	</style>
 </head>
 <body>
@@ -77,6 +88,19 @@
 					</tfoot>
 				</table>
 			</div>
+
+			<div class="well">
+				<table class="table" id="companies-table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>Inicio</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
 		</div>
 	</div>
 	
@@ -94,7 +118,18 @@
 	<script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
 
 	<script type="text/javascript">
-	
+		
+		function format(d) {
+        return `
+                <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
+                    <tr>
+                        <td>Descripción</td>
+                        <td>${d.description}</td>
+                    </tr>
+                </table>
+            `;
+    }
+
 		jQuery(document).ready(function($){
 
 			$.extend(true, $.fn.dataTable.defaults, {
@@ -123,7 +158,9 @@
 			
 			/* http://cdn.datatables.net/plug-ins/1.10.19/i18n/ 
 				Tambien puedo descargarlo y llamarlo*/
-			var employeesTable = $('#employees-table').DataTable( {
+			
+			
+			var employeesTable = $('#employees-table').DataTable({
 				"paging": true,
 	            "order": [[ 2, 'asc' ]],
 	            "columns": [
@@ -227,7 +264,7 @@
 					"url": "http://datatables.test/users.json"
 				}
 			});
-
+			
 			$('#products-table').DataTable({
 				language : {
 					url: "http://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
@@ -280,6 +317,39 @@
 					}
 				}
 			});
+			
+
+			const companiesTable = $('#companies-table').DataTable({
+				stateSave: false,
+	            paging: true,
+	            columns: [
+	                {
+	                    "className": 'details-control',
+	                    "orderable": false,
+	                    "data": null,
+	                    "defaultContent": ''
+	                },
+	                {name: "id", data: "id"},
+	                {name: "name", data: "name"},
+	                {name: "starts", data: "starts"}
+	            ],
+	            ajax: {
+	                url: "http://datatables.test/companies.json"
+	            }
+			});
+
+			$('#companies-table tbody').on('click', 'td.details-control', function () {
+	            let tr = $(this).closest('tr');
+	            let row = companiesTable.row(tr);
+
+	            if (row.child.isShown()) {
+	                row.child.hide();
+	                tr.removeClass('shown');
+	            } else {
+	                row.child(format(row.data())).show();
+	                tr.addClass('shown');
+	            }
+        	});
 		})
 	</script>
 </body>
