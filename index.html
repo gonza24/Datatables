@@ -111,6 +111,7 @@
 							<th>Slug</th>
 							<th>Descripción</th>
 							<th>Alta</th>
+							<th>Acciones</th>
 						</tr>
 					</thead>
 				</table>
@@ -369,6 +370,18 @@
 				paging : true,
 				processing: true,
 				serverSide: true,
+				columns: [
+					{name: "id", data: "id"},
+					{name: "name", data: "name"},
+					{name: "slug", data: "slug"},
+					{name: "description", data: "description"},
+					{name: "created", data: "created_at"},
+					{name: "actions", render: function(data,type,row){
+						return `
+							<a href="#" class="removeForum btn btn-danger" data-id="${row.id}">Eliminar</a>
+						`
+					}},
+				],
 			  	ajax: "http://datatables.test/forosJson.php"
 			});
 		})
