@@ -133,6 +133,23 @@
 	<script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
 
 	<script type="text/javascript">
+
+		var forumsTable;
+
+		function removeForum(id){
+			jQuery.ajax({
+				url: "deleteForum.php",
+				data: {
+					id: id
+				},
+				success: function(data){
+					forumsTable.ajax.reload();
+				},
+				error: function(event,xhr){
+
+				},
+			});
+		}
 		
 		function format(d) {
         return `
@@ -366,7 +383,7 @@
 	            }
         	});
 
-        	$("#forums-table").DataTable({
+        	forumsTable = $("#forums-table").DataTable({
 				paging : true,
 				processing: true,
 				serverSide: true,
@@ -383,6 +400,12 @@
 					}},
 				],
 			  	ajax: "http://datatables.test/forosJson.php"
+			});
+
+			jQuery(document).on("click","#forums-table a", function(e){
+				e.preventDefault();
+				const id = $(this).data("id");
+				removeForum(id);
 			});
 		})
 	</script>
